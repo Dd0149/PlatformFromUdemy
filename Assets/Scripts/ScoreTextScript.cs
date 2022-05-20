@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class ScoreTextSCript : MonoBehaviour
+public class ScoreTextScript : MonoBehaviour
 {
     public TMP_Text text;
     public int coinAmount;
