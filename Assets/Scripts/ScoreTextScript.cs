@@ -6,16 +6,20 @@ using UnityEngine.UI;
 
 public class ScoreTextScript : MonoBehaviour
 {
-    public TMP_Text text;
-    public int coinAmount;
-       void Start()
+    public TMP_Text coinText;
+    public static int coinAmount;
+
+    void Start()
     {
-        
+        coinText = GetComponent<TMP_Text>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        text.text = coinAmount.ToString();
+        coinText.text = coinAmount.ToString();
+        
+
     }
+
 }

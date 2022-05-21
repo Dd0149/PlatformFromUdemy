@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class CoinScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+ 
+    private void OnTriggerEnter2D(Collider2D col)
     {
+        if(col.gameObject.tag == "Player"){
+            ScoreTextScript.coinAmount += 1;
+            Destroy(gameObject);
+        }
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   
 }
