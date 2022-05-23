@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,25 +26,41 @@ public class PlayerController : MonoBehaviour
    private float afterImageCounter;
    public Color m_afterImageColor;
 
+   public float m_waitAfterDashing;
+   private float m_dashRechargeCounter;
+
+    public GameObject m_standing, m_ballMode;
+    public float m_waitToBall;
+    private float m_ballCounter;
+    
+
 
 
 
     void Update()
     {
-        if(Input.GetButtonDown("Fire2"))
-        {
-            m_dashCounter = m_dashTime;
-            ShowAfterImage();
+        if(m_dashRechargeCounter>0){
+            m_dashRechargeCounter -= Time.deltaTime;
         }
+        else
+        {
 
+            if(Input.GetButtonDown("Fire2") && m_standing.activeSelf)
+            {
+                m_dashCounter = m_dashTime;
+                ShowAfterImage();
+            }
+        }
         if(m_dashCounter > 0 )
         {
             m_dashCounter = m_dashCounter - Time.deltaTime;
             m_theRB.velocity = new Vector2(m_dashSpeed * transform.localScale.x, m_theRB.velocity.y);
             afterImageCounter -= Time.deltaTime;
-            if(afterImageCounter <= 0){
+            if(afterImageCounter <= 0)
+            {
                 ShowAfterImage();
             }
+            m_dashRechargeCounter = m_waitAfterDashing;
 
         }
         
@@ -89,6 +106,23 @@ public class PlayerController : MonoBehaviour
             m_anim.SetTrigger("isShoot");
 
         }
+
+        //Ball on
+        if(!m_ballMode.activeSelf){
+           if(Input.GetAxisRaw("Vertical")<-.9f){
+                m_ballCounter -= Time.deltaTime;
+                if(m_ballCounter<=0){
+                    m_ballMode.SetActive(true);
+                    m_standing.SetActive(false);
+                }
+           }else{
+               m_ballCounter = m_waitToBall;
+           }
+        
+        }else{
+            
+        }
+
 
     }
 
