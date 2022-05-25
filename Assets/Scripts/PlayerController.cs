@@ -36,9 +36,12 @@ public class PlayerController : MonoBehaviour
 
     public Transform m_spolsionPoint;
     public GameObject m_bomb;
+    private PlayerAbilityTracker m_abilities;
     
 
-
+    void Start(){
+        m_abilities = GetComponent<PlayerAbilityTracker>();
+    }
 
 
     void Update()
@@ -49,7 +52,7 @@ public class PlayerController : MonoBehaviour
         else
         {
 
-            if(Input.GetButtonDown("Fire2") && m_standing.activeSelf)
+            if(Input.GetButtonDown("Fire2") && m_standing.activeSelf && m_abilities.m_canDash)
             {
                 m_dashCounter = m_dashTime;
                 ShowAfterImage();
@@ -87,7 +90,7 @@ public class PlayerController : MonoBehaviour
         isOnGround = Physics2D.OverlapCircle(m_groundPoint.position, .2f, whatIsGround);
         
         //a jump function is given a bool to allow jump in or statement then concatinated is given if to create restricted true/false
-        if(Input.GetButtonDown("Jump") && (isOnGround || m_canDoubleJump))
+        if(Input.GetButtonDown("Jump") && (isOnGround || (m_canDoubleJump) && m_abilities.m_canDoubleJump))
         {
             if(isOnGround)
             {
@@ -110,7 +113,7 @@ public class PlayerController : MonoBehaviour
             m_anim.SetTrigger("isShoot");
                         
            }
-           else if(m_ballMode.activeSelf){
+           else if(m_ballMode.activeSelf && m_abilities.m_canDropBomb){
                Instantiate(m_bomb, m_spolsionPoint.position, m_spolsionPoint.rotation);
            }
 
@@ -119,7 +122,7 @@ public class PlayerController : MonoBehaviour
         //Ball mode
         if(!m_ballMode.activeSelf)
         {
-           if(Input.GetAxisRaw("Vertical") < -.9f)
+           if(Input.GetAxisRaw("Vertical") < -.9f && m_abilities.m_canBecomeBall)
            {
                 m_ballCounter -= Time.deltaTime;
                 
