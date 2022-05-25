@@ -9,6 +9,8 @@ public class BulletController : MonoBehaviour
     public Rigidbody2D m_theBulletRB;
     public Vector2 m_moveDir;
     public GameObject m_impactVfx;
+    
+
  
     void Update()
     {

@@ -32,6 +32,10 @@ public class PlayerController : MonoBehaviour
     public GameObject m_standing, m_ballMode;
     public float m_waitToBall;
     private float m_ballCounter;
+    public Animator m_ballAnim;
+
+    public Transform m_spolsionPoint;
+    public GameObject m_bomb;
     
 
 
@@ -98,30 +102,62 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        m_anim.SetBool("isOnGround", isOnGround);
-        m_anim.SetFloat("Speed", Mathf.Abs(m_theRB.velocity.x));
-
+       //shooting 
         if(Input.GetButtonDown("Fire1")){
-           Instantiate(m_shotToFire, m_shotPoint.position, m_shotPoint.rotation).m_moveDir = new Vector2(transform.localScale.x, 0f);
+           if(m_standing.activeSelf){
+   
+            Instantiate(m_shotToFire, m_shotPoint.position, m_shotPoint.rotation).m_moveDir = new Vector2(transform.localScale.x, 0f);
             m_anim.SetTrigger("isShoot");
+                        
+           }
+           else if(m_ballMode.activeSelf){
+               Instantiate(m_bomb, m_spolsionPoint.position, m_spolsionPoint.rotation);
+           }
 
         }
 
-        //Ball on
-        if(!m_ballMode.activeSelf){
-           if(Input.GetAxisRaw("Vertical")<-.9f){
+        //Ball mode
+        if(!m_ballMode.activeSelf)
+        {
+           if(Input.GetAxisRaw("Vertical") < -.9f)
+           {
                 m_ballCounter -= Time.deltaTime;
-                if(m_ballCounter<=0){
+                
+                if(m_ballCounter<= 0){
                     m_ballMode.SetActive(true);
                     m_standing.SetActive(false);
                 }
-           }else{
+           }
+           else
+           {
                m_ballCounter = m_waitToBall;
            }
         
-        }else{
-            
         }
+        else
+        {
+            if(Input.GetAxisRaw("Vertical") > .9f)
+           {
+                m_ballCounter -= Time.deltaTime;
+                
+                if(m_ballCounter<= 0){
+                    m_ballMode.SetActive(false);
+                    m_standing.SetActive(true);
+                }
+           }
+           else
+           {
+               m_ballCounter = m_waitToBall;
+           }
+        }
+        if(m_standing.activeSelf){
+            m_anim.SetBool("isOnGround", isOnGround);
+            m_anim.SetFloat("Speed", Mathf.Abs(m_theRB.velocity.x));
+        }
+        if(m_ballMode.activeSelf){
+            m_ballAnim.SetFloat("Speed", Mathf.Abs(m_theRB.velocity.x));
+        }
+      
 
 
     }
