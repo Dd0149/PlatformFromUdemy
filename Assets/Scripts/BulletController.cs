@@ -9,6 +9,8 @@ public class BulletController : MonoBehaviour
     public Rigidbody2D m_theBulletRB;
     public Vector2 m_moveDir;
     public GameObject m_impactVfx;
+
+    public int m_damage = 1;
     
 
  
@@ -19,7 +21,11 @@ public class BulletController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if(other.tag == "Enemy"){
+            other.GetComponent<EnemyHealthController>().DamageEnemy(m_damage);
+        }
         //Guard Clause
+        
         if(m_impactVfx != null){
         //vfx particle system reference is made on collision.
         Instantiate(m_impactVfx, transform.position, Quaternion.identity);
