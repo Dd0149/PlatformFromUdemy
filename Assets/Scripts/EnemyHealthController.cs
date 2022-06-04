@@ -8,10 +8,10 @@ public class EnemyHealthController : MonoBehaviour
     public int m_totalHealth = 3;
     public GameObject m_deathEffect;
 
-    //method must be called from some event..think about bullet controller before you 
-    //write the code since you dont have UML for class and dependencies/composition
+    // method must be called from some event..think about bullet controller before you 
+    // write the code since you dont have UML for class and dependencies/composition
     // you are disadvantaged you move forward in syntax without full picture of goal
-    //so think "why iws this what is this how is this called before just copypasta...
+    // so think "why is this? what is this? how is this called...before you just copypasta..."
     public void DamageEnemy(int p_damageAmount){
         //scopeout 1/scopedown1 rules of damage
         m_totalHealth -= p_damageAmount;

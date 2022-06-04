@@ -37,15 +37,22 @@ public class PlayerController : MonoBehaviour
     public Transform m_spolsionPoint;
     public GameObject m_bomb;
     private PlayerAbilityTracker m_abilities;
+
+    public bool m_canMove;
     
 
     void Start(){
         m_abilities = GetComponent<PlayerAbilityTracker>();
+        m_canMove = true;
     }
 
 
     void Update()
     {
+        
+        if(m_canMove)
+        {
+        
         if(m_dashRechargeCounter>0){
             m_dashRechargeCounter -= Time.deltaTime;
         }
@@ -152,6 +159,9 @@ public class PlayerController : MonoBehaviour
            {
                m_ballCounter = m_waitToBall;
            }
+        }
+        } else{
+            m_theRB.velocity = Vector2.zero;
         }
         if(m_standing.activeSelf){
             m_anim.SetBool("isOnGround", isOnGround);

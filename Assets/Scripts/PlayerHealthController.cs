@@ -8,7 +8,14 @@ public class PlayerHealthController : MonoBehaviour
 
     
     private void Awake(){
+        if(s_instance == null){
         s_instance=this;
+        DontDestroyOnLoad(gameObject);
+
+        }else{
+            Destroy(gameObject);
+        }
+        
     }
     //question 1: do you want it graphical? UI? just logic then graphic?
     //are you visual unity then code or code then visual?
@@ -67,8 +74,9 @@ public class PlayerHealthController : MonoBehaviour
                 //so we have to reset to 0 if interger scale below 0
                 m_currentHealth = 0;
 
-                gameObject.SetActive(false);
+                //gameObject.SetActive(false);
                 //Destroy(gameObject);
+                RespawnController.instance.Respawn();
             }else
             {
                 //set the counter 
@@ -78,6 +86,18 @@ public class PlayerHealthController : MonoBehaviour
             }
             UIcontroller.instance.UpdateHealth(m_currentHealth, m_maxHealth);
         }
+   }
+   public void FillHealth(){
+       m_currentHealth = m_maxHealth;
+       UIcontroller.instance.UpdateHealth(m_currentHealth, m_maxHealth);
+   }
+
+   public void HealPlayer(int healAmount){
+       m_currentHealth += healAmount;
+       if(m_currentHealth > m_maxHealth){
+           m_currentHealth = m_maxHealth;
+       }
+       UIcontroller.instance.UpdateHealth(m_currentHealth, m_maxHealth);
    }
 
 
